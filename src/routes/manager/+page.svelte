@@ -9,6 +9,7 @@
 
 	export let data: PageData;
 	let user_profile = data.user_profile;
+    let profiles = data.profiles;
 	let { supabase, session } = data;
 	$: ({ supabase, session } = data);
 
@@ -80,21 +81,17 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                 <tr>
-                    <th class="border border-gray-400 p-2">No.</th>
-                    <th class="border border-gray-400 p-2">Name</th>
+                    <th class="border border-gray-400 py-2 px-2 gap-0.25 text-center">No.</th>
+                    <th class="border border-gray-400 py-2 px-4 text-center">Name</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Sample staff data -->
-                <tr>
-                    <td class="border border-gray-300 p-2">1</td>
-                    <td class="border border-gray-300 p-2">John Doe</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 p-2">2</td>
-                    <td class="border border-gray-300 p-2">Jane Smith</td>
-                </tr>
-                <!-- Add more rows as needed -->
+                {#each profiles as staff, index}
+                    <tr>
+                        <td class="border border-gray-300 py-2 px-2 gap-0.25 text-center">{index + 1}</td>
+                        <td class="border border-gray-300 py-2 px-4 text-center">{staff.username}</td>
+                    </tr>
+                {/each}
                 </tbody>
             </table>
             </div>

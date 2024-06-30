@@ -11,6 +11,7 @@
     export let data: PageData;
     let { supabase, session } = data;
     let user_profile = data.user_profile;
+    export let stockItem = { name: '', category: '', perUnit: 0, quantity: 0 };
 
     // Sample sales and stock data
     let sales = [
@@ -57,10 +58,6 @@
         return cart.reduce((total, item) => total + item.product.unitPrice * item.quantity, 0).toFixed(2);
     }
 
-    function filterProducts(category) {
-        filter = category;
-    }
-
     const handledashboard = async () => {
 		goto('/staff');
 	};
@@ -72,6 +69,15 @@
     const handleviewstock = async () => {
 		goto('/staff/view-stock');
 	};
+
+    let categoryOption = [
+        'All Product',
+        'Pets Food',
+        'Pets Grooming',
+        'Healthcare',
+        'Toiletries',
+        'Toys & Accessories'
+    ];
 
 </script>
 
@@ -96,14 +102,13 @@
     <div class="bg-white p-4 rounded-lg shadow-lg text-center">
         <!-- Filter Dropdown -->
         <div class="flex justify-end mb-2">
-            <div class="relative inline-block text-left">
-                <label for="productFilter" class="mr-2">Filter by Category:</label>
-                <select id="productFilter" class="border border-gray-300 p-2 rounded">
-                    <option value="All">All Product</option>
-                    <option value="Food">Food</option>
-                    <option value="Toys">Toys</option>
-                    <!-- Add more options as needed -->
-                </select>
+            <div class="flex">
+                <label for="CategoryProduct" class="mr-2">Category:</label>
+                    <select id="CategoryProduct" bind:value={stockItem.category} class="border border-gray-400 p-1 rounded h-8 w-full">
+                    {#each categoryOption as value}
+                    <option value={value}>{value}</option>
+                    {/each}
+                    </select>
             </div>
         </div>
 

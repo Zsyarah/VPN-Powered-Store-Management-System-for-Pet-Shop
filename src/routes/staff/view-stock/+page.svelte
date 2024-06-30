@@ -4,15 +4,14 @@
 	  import type { PageData } from './$types';
     import logo from '$lib/img/logo.png';
     import background from '$lib/img/background.png';
+    export let stockItem = { name: '', category: '', perUnit: 0, quantity: 0 };
 
     const src = background;
   
-    // Sample data for demonstration
-    let products = [
-      { no: 1, name: "Dog Food", price: 10.00, quantity: 50, category: "Food" },
-      { no: 2, name: "Cat Toy", price: 5.00, quantity: 100, category: "Toys" }
-      // Add more product data here
-    ];
+    export let data: PageData; // Data fetched by `view.ts`
+    let stock = data.stock;
+	  let { supabase, session } = data;
+	  $: ({ supabase, session } = data);
   
     let filter = "All Product";
   
@@ -31,6 +30,19 @@
 
     const handleviewstock = async () => {
 		goto('/staff/view-stock');
+	};
+
+  let categoryOption = [
+        'All Product',
+        'Pets Food',
+        'Pets Grooming',
+        'Healthcare',
+        'Toiletries',
+        'Toys & Accessories'
+    ];
+  
+  const handleDropdownChange = (event: Event) => {
+		filter = (event.target as HTMLSelectElement).value;
 	};
 
   </script>
@@ -62,14 +74,13 @@
       <div class="flex justify-end mb-2">
         <div class="relative inline-block text-left">
           <div>
-            <div class="flex justify-end mb-2">
-                <label for="productFilter" class="mr-2">Filter by Category:</label>
-                <select id="productFilter" class="border border-gray-300 p-2 rounded">
-                    <option value="All">All Product</option>
-                    <option value="Food">Food</option>
-                    <option value="Toys">Toys</option>
-                    <!-- Add more options as needed -->
-                </select>
+            <div class="flex">
+                <label for="CategoryProduct" class="mr-2">Category:</label>
+                    <select id="CategoryProduct" bind:value={filter} class="border border-gray-400 p-1 rounded h-8 w-full" on:change={handleDropdownChange}>
+                    {#each categoryOption as value}
+                    <option value={value}>{value}</option>
+                    {/each}
+                    </select>
             </div>
           </div>
         </div>
@@ -87,16 +98,14 @@
               </tr>
             </thead>
             <tbody>
-              {#each products as product}
-                {#if filter === "All Product" || product.category === filter}
+              {#each stock.filter(stock => filter === 'All Product' || stock.category_product === filter) as product, index}
                   <tr>
-                    <td class="border border-gray-300 p-2">{product.no}</td>
-                    <td class="border border-gray-300 p-2">{product.name}</td>
-                    <td class="border border-gray-300 p-2">{product.price.toFixed(2)}</td>
-                    <td class="border border-gray-300 p-2">{product.quantity}</td>
-                    <td class="border border-gray-300 p-2">{product.category}</td>
+                    <td class="border border-gray-300 p-2">{index + 1}</td>
+                    <td class="border border-gray-300 p-2">{product.name_product}</td>
+                    <td class="border border-gray-300 p-2">{product.price_product.toFixed(2)}</td>
+                    <td class="border border-gray-300 p-2">{product.quantity_product}</td>
+                    <td class="border border-gray-300 p-2">{product.category_product}</td>
                   </tr>
-                {/if}
               {/each}
             </tbody>
           </table>

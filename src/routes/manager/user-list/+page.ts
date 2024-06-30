@@ -6,7 +6,8 @@ export const load: PageLoad = async ({ parent, params }) => {
     // Ensure that you are fetching the correct data; this assumes single row expected.
     const { data: profiles, error } = await supabase
         .from('profiles')
-        .select('*');
+        .select('*')
+        .eq('role', 'staff');
 
     if (error) {
         console.error('Error fetching profiles data:', error);
