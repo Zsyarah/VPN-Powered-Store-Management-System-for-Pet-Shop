@@ -82,7 +82,7 @@
                     <label>Quantity</label>
                     <div class="quantity-input">
                         <button on:click={() => stockItem.quantity > 0 ? stockItem.quantity-- : 0} aria-label="Decrease quantity">-</button>
-                        <input type="number" bind:value={stockItem.quantity} min="0" />
+                        <input bind:value={stockItem.quantity} min="0" />
                         <button on:click={() => stockItem.quantity++} aria-label="Increase quantity">+</button>
                     </div>
                 </div>

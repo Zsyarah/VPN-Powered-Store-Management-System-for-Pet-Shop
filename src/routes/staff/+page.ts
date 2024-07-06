@@ -8,5 +8,14 @@ export const load = (async ({ parent, url }) => {
 		.eq('id', session?.user.id)
 		.single();
 
-	return { user_profile };
+	const { data: stock, error } = await supabase
+        .from('stock')
+        .select('*');
+
+    if (error) {
+        console.error('Error fetching stock data:', error);
+        return { stock: null }; // Return a fallback value to avoid null handling issues
+    }
+
+	return { user_profile, stock };
 }) satisfies PageLoad;

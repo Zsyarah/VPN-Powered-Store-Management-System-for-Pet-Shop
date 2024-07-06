@@ -17,6 +17,7 @@
         'Toiletries',
         'Toys & Accessories'
     ];
+
     let nameoption: string[] = [];
     let selectedCategory: string = categoryoption[0];
     let selectedName: string;

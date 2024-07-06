@@ -9,6 +9,7 @@
 
 	export let data: PageData;
 	let user_profile = data.user_profile;
+    let stock = data.stock;
 	let { supabase, session } = data;
 	$: ({ supabase, session } = data);
 
@@ -35,12 +36,6 @@
         { no: 2, quantity: 5, receipt: "002", total: 50.00 }
         // Add more sales data here
     ];
-
-    let stock = [
-        { no: 1, productName: "Dog Food", unitPrice: 10.00, quantity: 50, category: "Food" },
-        { no: 2, productName: "Cat Toy", unitPrice: 5.00, quantity: 100, category: "Toys" }
-        // Add more stock data here
-    ];
 </script>
 
 <div style="background-image: url({src});" class="justify-center items-center h-screen p-6 bg-no-repeat bg-cover">
@@ -58,7 +53,7 @@
         <div class=" bg-pink-300 p-2 rounded-lg shadow-lg text-center">
             <!-- Navigation Tabs -->
             <div class="flex items-baseline space-x-0">
-            <button class="px-16 py-2 bg-white rounded-lg hover:bg-gray-200 border-solid border-2 border-gray-400" on:click={handledashboard}>Dashboard</button>
+            <button class="px-16 py-2 rounded-lg bg-gray-200 border-solid border-2 border-gray-400" on:click={handledashboard}>Dashboard</button>
             <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-solid border-2 border-gray-400" on:click={handleviewstock}>Stock</button>
             <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-solid border-2 border-gray-400" on:click={handlesales}>Sales</button>
             </div>    
@@ -109,13 +104,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {#each stock as item}
+                        {#each stock as item, index}
                         <tr>
-                            <td class="border border-gray-300 p-2">{item.no}</td>
-                            <td class="border border-gray-300 p-2">{item.productName}</td>
-                            <td class="border border-gray-300 p-2">{item.unitPrice.toFixed(2)}</td>
-                            <td class="border border-gray-300 p-2">{item.quantity}</td>
-                            <td class="border border-gray-300 p-2">{item.category}</td>
+                            <td class="border border-gray-300 p-2">{index + 1}</td>
+                        <td class="border border-gray-300 p-2">{item.name_product}</td>
+                        <td class="border border-gray-300 p-2">{item.price_product.toFixed(2)}</td>
+                        <td class="border border-gray-300 p-2">{item.quantity_product}</td>
+                        <td class="border border-gray-300 p-2">{item.category_product}</td>
                         </tr>
                         {/each}
                     </tbody>

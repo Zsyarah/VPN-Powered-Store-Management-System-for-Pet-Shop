@@ -4,7 +4,6 @@
 	  import type { PageData } from './$types';
     import logo from '$lib/img/logo.png';
     import background from '$lib/img/background.png';
-    export let stockItem = { name: '', category: '', perUnit: 0, quantity: 0 };
 
     const src = background;
   
@@ -63,7 +62,7 @@
       <!-- Navigation Tabs -->
       <div class="flex items-baseline space-x-0">
             <button class="px-16 py-2 bg-white rounded-lg hover:bg-gray-200 border-solid border-2 border-gray-400" on:click={handledashboard}>Dashboard</button>
-            <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-solid border-2 border-gray-400" on:click={handleviewstock}>Stock</button>
+            <button class="px-20 py-2 rounded-lg bg-gray-200 border-solid border-2 border-gray-400" on:click={handleviewstock}>Stock</button>
             <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-solid border-2 border-gray-400" on:click={handlesales}>Sales</button>
       </div>
   

@@ -177,12 +177,12 @@
         <div class="flex items-baseline space-x-0">
             <button class="px-14 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={ handledashboard }>Dashboard</button>
             <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={ handlestock }>Stock</button>
-            <button class="px-16 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={ handleadduser }>Add User</button>
+            <button class="px-16 py-2 rounded-lg bg-gray-200 border-2 border-gray-400" on:click={ handleadduser }>Add User</button>
             <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={ handleuserlist }>User</button>
         </div>
 
       <div class=" bg-white p-4 rounded-lg shadow-lg text-center">
-        <div class="col-span-2 bg-pink-100 p-4 rounded-lg border-2 border-gray-400 ">
+        <div class="col-span-2 w-1/4 mx-auto bg-pink-100 p-4 rounded-lg border-2 border-gray-400">
         <h2 class="text-2xl font-bold mb-4 ">Add User</h2>
             <div class="mb-4">
                 <label class="block text-black" for="username">Username</label>

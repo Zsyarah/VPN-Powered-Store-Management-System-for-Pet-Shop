@@ -59,7 +59,7 @@
     <div class=" bg-pink-300 p-2 rounded-lg shadow-lg text-center">
         <!-- Navigation Tabs -->
         <div class="flex items-baseline space-x-0">
-        <button class="px-14 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={ handledashboard }>Dashboard</button>
+        <button class="px-14 py-2 rounded-lg bg-gray-200 border-2 border-gray-400" on:click={ handledashboard }>Dashboard</button>
         <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={ handlestock }>Stock</button>
         <button class="px-16 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={ handleadduser }>Add User</button>
         <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={ handleuserlist }>User</button>

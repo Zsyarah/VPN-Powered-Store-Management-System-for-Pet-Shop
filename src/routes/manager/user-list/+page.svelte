@@ -98,7 +98,7 @@
             <button class="px-14 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={handledashboard}>Dashboard</button>
             <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={handlestock}>Stock</button>
             <button class="px-16 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={handleadduser}>Add User</button>
-            <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={handleuserlist}>User</button>
+            <button class="px-20 py-2 rounded-lg bg-gray-200 border-2 border-gray-400" on:click={handleuserlist}>User</button>
         </div>
 
         <div class="w-full bg-white p-4 rounded-lg text-center">

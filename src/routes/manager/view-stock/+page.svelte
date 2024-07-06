@@ -67,6 +67,7 @@
     $: console.log('showModal state:', showModal); // Debugging log
     $: console.log('showModals state:', showModals); // Debugging log
     $: console.log('showModalss state:', showModalss); // Debugging log
+    
 </script>
 
 <!-- Modals for Update, Add, and Delete -->
@@ -87,7 +88,7 @@
         <div class=" bg-pink-300 rounded-lg text-center px-10">
             <div class="flex items-baseline space-x-0">
                 <button class="px-14 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={handledashboard}>Dashboard</button>
-                <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={handlestock}>Stock</button>
+                <button class="px-20 py-2 rounded-lg bg-gray-200 border-2 border-gray-400" on:click={handlestock}>Stock</button>
                 <button class="px-16 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={handleadduser}>Add User</button>
                 <button class="px-20 py-2 bg-white rounded-lg hover:bg-gray-200 border-2 border-gray-400" on:click={handleuserlist}>User</button>
             </div>
