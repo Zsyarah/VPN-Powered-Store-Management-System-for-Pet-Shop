@@ -26,5 +26,9 @@ export const load: PageLoad = async ({ parent, params, url }) => {
         return { profiles, user_profile: null }; // Return profiles data but null for user profile
     }
 
-    return { profiles, user_profile };
+    const { data: receipts } = await supabase
+        .from('receipts')
+        .select('*');
+
+    return { profiles, user_profile, receipts };
 };

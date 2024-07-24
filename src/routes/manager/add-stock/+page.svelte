@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
     import AddIcon from '$lib/img/add-stock.png'; // Adjust the path accordingly
     import { tick } from 'svelte';
     export let show = false;
@@ -31,6 +32,8 @@
                 console.error('Error adding stock item:', error);
             } else {
                 console.log('Stock item added:', insertedStock);
+                alert('Added successfully!');
+		        window.location.href = '/manager/view-stock';
                 closeModal();
             }
         } catch (error) {

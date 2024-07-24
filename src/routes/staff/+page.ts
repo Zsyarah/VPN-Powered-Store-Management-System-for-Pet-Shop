@@ -12,10 +12,14 @@ export const load = (async ({ parent, url }) => {
         .from('stock')
         .select('*');
 
+	const { data: receipts } = await supabase
+        .from('receipts')
+        .select('*');
+
     if (error) {
         console.error('Error fetching stock data:', error);
         return { stock: null }; // Return a fallback value to avoid null handling issues
     }
 
-	return { user_profile, stock };
+	return { user_profile, stock, receipts };
 }) satisfies PageLoad;

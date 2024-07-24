@@ -234,16 +234,12 @@
                 <button 
                 class="bg-white text-black py-2 px-4 border border-gray-400 rounded-lg" 
                 on:click={clearForm}
-                >
-                Clear
-                </button>
+                >Clear</button>
                 <button 
                 class="bg-white text-black py-2 px-4 border border-gray-400 rounded-lg" 
                 disabled={loading}
                 on:click={addUser}
-                >
-                Add
-                </button>
+                >Add</button>
             </div>
         </div>
         </div>

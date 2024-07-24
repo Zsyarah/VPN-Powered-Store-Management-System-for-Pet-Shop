@@ -6,7 +6,6 @@
 
     const src = background;
 
-    // Data provided from the parent component or API
     export let data: PageData;
     let stock = data.stock;
     let cart = data.cart;
@@ -14,19 +13,32 @@
     let { supabase, session } = data;
     $: ({ supabase, session } = data);
 
-    // Shopping cart state
     let filter = "All Product";
 
-    // Function to handle user logout
     const handleSignOut = async () => {
         await supabase.auth.signOut();
         goto('/', { replaceState: true });
     };
 
-    // Functions to manage cart operations
     async function addToCart(product, quantity) {
         console.log("addToCart called with product:", product, "and quantity:", quantity);
         let item = cart.find(item => item.stock_id === product.id);
+
+        const stockItem = stock.find(stockItem => stockItem.id === product.id);
+        if (!stockItem) {
+            console.error('Product not found in stock');
+            return;
+        }
+
+        const currentStockQuantity = stockItem.quantity_product;
+        const currentCartQuantity = item ? item.quantity : 0;
+        const newCartQuantity = currentCartQuantity + quantity;
+
+        if (newCartQuantity > currentStockQuantity) {
+            console.error('Cannot add more items than available in stock');
+            alert(`Cannot add more items than available in stock. Available quantity: ${currentStockQuantity}`);
+            return;
+        }
 
         if (item) {
             item.quantity += quantity;
@@ -35,7 +47,7 @@
                 cart = cart.filter(item => item.stock_id !== product.id);
             } else {
                 await supabase.from('cart').update({ quantity: item.quantity }).eq('stock_id', product.id);
-                cart = [...cart]; // Trigger reactivity
+                cart = [...cart];
             }
         } else {
             if (quantity > 0) {
@@ -43,8 +55,10 @@
                 cart = [...cart, { stock_id: product.id, quantity }];
             }
         }
-        cart = [...cart]; // Ensure reactivity is triggered
+
+        cart = [...cart];
         console.log("Updated cart:", cart);
+        window.location.href = '/staff/sales';
     }
 
     async function clearCart() {
@@ -53,15 +67,41 @@
             console.error('Error clearing cart:', error);
         } else {
             cart = [];
-            cart = [...cart]; // Trigger reactivity
+            cart = [...cart];
             console.log('Cart cleared');
         }
+        window.location.href = '/staff/sales';
+    }
+
+    function generateReceiptNumber() {
+        return 'R' + Math.random().toString(36).substr(2, 9).toUpperCase();
     }
 
     async function confirmCart() {
+        const receipt_number = generateReceiptNumber();
+        const receipt_date = new Date().toISOString();
+        const total = calculateTotal();
+
+        const { error: receiptError } = await supabase.from('receipts').insert([{
+            receipt_number: receipt_number,
+            receipt_date: receipt_date,
+            total: total
+        }]);
+
+        if (receiptError) {
+            console.error('Error inserting receipt:', receiptError);
+            return;
+        }
+
         for (let item of cart) {
             const product = stock.find(product => product.id === item.stock_id);
             if (product) {
+                if (product.quantity_product < item.quantity) {
+                    console.error(`Not enough stock for product ID: ${product.id}`);
+                    alert(`Not enough stock for product: ${product.name_product}`);
+                    return;
+                }
+
                 const sale_date = new Date().toISOString().split('T')[0];
                 const sale_price = product.price_product;
 
@@ -69,7 +109,8 @@
                     stock_id: item.stock_id,
                     sale_date: sale_date,
                     sale_quantity: item.quantity,
-                    sale_price: sale_price
+                    sale_price: sale_price,
+                    receipt_number: receipt_number
                 }]);
 
                 if (error) {
@@ -91,19 +132,19 @@
             }
         }
 
-        const { error } = await supabase.from('cart').delete().neq('stock_id', 0);
-        if (error) {
-            console.error('Error clearing cart:', error);
+        const { error: cartError } = await supabase.from('cart').delete().neq('stock_id', 0);
+        if (cartError) {
+            console.error('Error clearing cart:', cartError);
         } else {
             console.log('Cart cleared');
         }
 
         cart = [];
-        cart = [...cart]; // Trigger reactivity
-        alert('Order confirmed!');
+        cart = [...cart];
+        alert(`Order confirmed! Receipt number: ${receipt_number}`);
+        window.location.href = '/staff/sales';
     }
 
-    // Calculate the total price of items in the cart
     $: total = calculateTotal();
 
     function calculateTotal() {
@@ -144,7 +185,6 @@
     let selectedCategory: string = categoryoption[0];
 </script>
 
-<!-- Main UI -->
 <div style="background-image: url({src});" class="justify-center items-center h-screen p-6 bg-no-repeat bg-cover">
     <div class="flex justify-between items-center">
         <img src={logo} alt="Pet Shop Logo" class="w-40 h-auto" />

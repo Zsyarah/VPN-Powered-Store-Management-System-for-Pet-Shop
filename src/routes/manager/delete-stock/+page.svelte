@@ -2,6 +2,7 @@
     import deleteIcon from '$lib/img/delete-stock.png'; // Replace with the actual path to your delete icon
     import { tick } from 'svelte';
     import type { PageData } from './$types';
+	import { goto } from '$app/navigation';
 
     export let data: PageData;
     export let show = false;
@@ -21,7 +22,7 @@
     // Function to delete selected stock items
     const handleDelete = async () => {
         console.log('Deleting stock items:', Array.from(selectedItems));
-        const { error } = await supabase
+        const { data: deleteStock, error } = await supabase
             .from('stock')
             .delete()
             .in('id', Array.from(selectedItems));
@@ -29,6 +30,9 @@
         if (error) {
             console.error('Error deleting stock items:', error);
         } else {
+            console.log('Stock item deleted:', deleteStock);
+            alert('Deleted successfully!');
+		    window.location.href = '/manager/view-stock';
             closeModal();
         }
     };

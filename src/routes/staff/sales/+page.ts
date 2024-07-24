@@ -3,18 +3,24 @@ import type { PageLoad } from './$types';
 export const load: PageLoad = async ({ parent, params }) => {
     const { supabase } = await parent();
 
-    // Ensure that you are fetching the correct data; this assumes single row expected.
-    const { data: stock} = await supabase
+    // Fetch stock data
+    const { data: stock, error: stockError } = await supabase
         .from('stock')
         .select('*');
 
-    const { data: cart, error } = await supabase
+    if (stockError) {
+        console.error('Error fetching stock data:', stockError);
+        return { stock: [], cart: [] }; // Return fallback value to avoid null handling issues
+    }
+
+    // Fetch cart data
+    const { data: cart, error: cartError } = await supabase
         .from('cart')
         .select('*');
-    
-    if (error) {
-        console.error('Error fetching stock data:', error);
-        return { stock, cart: [] }; // Return a fallback value to avoid null handling issues
+
+    if (cartError) {
+        console.error('Error fetching cart data:', cartError);
+        return { stock, cart: [] }; // Return fallback value to avoid null handling issues
     }
 
     return { stock, cart };

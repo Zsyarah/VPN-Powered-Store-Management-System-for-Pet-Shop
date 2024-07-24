@@ -2,6 +2,7 @@
     import updateIcon from '$lib/img/update-stock.png'; // Replace with the actual path to your update icon
     import { tick } from 'svelte';
     import type { PageData } from './$types';
+	import { goto } from '$app/navigation';
 
     export let data: PageData;
     export let show = false;
@@ -30,7 +31,7 @@
     const handleUpdate = async () => {
         console.log('Updating stock item:', selectedStockItem);
         const { id, quantity_product, price_product } = selectedStockItem;
-        const { error } = await supabase
+        const { data: updateStock, error } = await supabase
             .from('stock')
             .update({ quantity_product, price_product })
             .eq('id', id);
@@ -38,6 +39,9 @@
         if (error) {
             console.error('Error updating stock item:', error);
         } else {
+            console.log('Stock item updated:', updateStock);
+            alert('Updated successfully!');
+		    window.location.href = '/manager/view-stock';
             closeModal();
         }
     };
