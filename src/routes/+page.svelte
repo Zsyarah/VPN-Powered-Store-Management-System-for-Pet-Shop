@@ -76,6 +76,9 @@
       >
         Login
       </button>
+      <div class="flex items-center justify-center">
+				<a class="duration-200 text-blue-700 hover:text-blue-900 cursor-pointer py-2 px-4" href="/forget-password">Forget Password</a>
+			</div>
     </form>
   </div>
   </div>
